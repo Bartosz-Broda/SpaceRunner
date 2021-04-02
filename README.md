@@ -3,4 +3,4 @@ Grę SpaceRunner stworzyłem w 2019 roku, natomiast dopiero teraz wrzucam ją na
 
 Simple game made in Python in 2019, using kivy and kivent framework. Player has to survive 100 seconds steering his spaceship through space. Game has one serious bug - it takes about a minute to run it on mobile device. It's difficult to fix so i decided to publish it just as it is. On PC the game works properly.
 
-.apk download link: https://github.com/Bartosz-Broda/SpaceRunner/releases/download/v0.22-alpha/apka-0.22-armeabi-v7a-debug.apk
+.apk download link: https://github.com/Bartosz-Broda/SpaceRunner/releases/download/v0.22-alpha/SpaceRunner_v_022.apk
