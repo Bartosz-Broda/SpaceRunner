@@ -11,7 +11,6 @@ from kivy.logger import Logger
 from kivy.uix.screenmanager import ScreenManager, Screen, FadeTransition
 from kivy.uix.widget import Widget
 from kivy.vector import Vector
-from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
 from kivy.properties import ObjectProperty, StringProperty, NumericProperty
@@ -153,10 +152,6 @@ class KivyGame(Widget):
         self.space.add(shape)
 
     def update(self, dt):
-        #for b in self.planets:
-        #   b.body.apply_force((0, -40))
-
-        
         self.space.step(1.0 / 30)
 
         for w in self.widgets_with_bodies:
@@ -177,7 +172,6 @@ class KivyGame(Widget):
         self.space.reindex_static()
 
     def on_key_up(self, __window, key, *__, **___):
-        # code = Keyboard.keycode_to_string(None, key) # można tak, ale to brzydki hack
         dx, dy = 0, 0
         if key == Keyboard.keycodes['up']:
             dy = 1500
