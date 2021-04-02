@@ -1,0 +1,143 @@
+#:import random random
+#:import Factory kivy.factory.Factory
+#:import ScreenManager kivy.uix.screenmanager.ScreenManager
+#:import Screen kivy.uix.screenmanager.ScreenManager
+#:import FadeTransition kivy.uix.screenmanager.ScreenManager
+#: import sm kivy.uix.screenmanager
+#:import Widget kivy.uix.widget
+#:import Clock kivy.clock.Clock
+
+<GameScreenManager>:
+    id: screen_manager
+    #transition: FadeTransition()
+
+    Screen:
+        id: game_screen  
+        name: 'game'
+        manager: screen_manager
+        CustomLayout:
+        KivyGame:
+    
+    Screen:
+        name: 'lose'
+        manager: screen_manager
+        AnchorLayout:
+            anchor_x:'center' 
+            anchor_y:'top'
+            Label:
+                id: gameover
+                text: "You lost! \n If you want to continiue, \njust press the button.\n If not, just close the app."
+                font_size: '20sp'
+                halign: 'center'
+                valign: 'middle'
+
+        AnchorLayout:
+            anchor_x:'center' 
+            anchor_y:'bottom'
+            padding: [0, 0, 0, 40]       
+            Button:
+                anchor_x:'center' 
+                anchor_y:'center'
+                size: (500, 100)
+                size_hint: (None, None)
+                font_size: '30sp' 
+                text: "Continiue"
+                on_press: app.root.current = 'game'
+
+    Screen:
+        name: 'win'
+        manager: screen_manager
+        BoxLayout:    
+            Label:
+                id: gamewin
+                text: "Winner winner chicken dinner! \nThank you for playing! \nYou can close the game, \nas it doesn't have the restart option so far."
+ 
+        
+<KivyGame>
+    ship: ship
+    btntxt: ['Survive!', 'Pause!']
+    x: 2
+    y: root.x % 2
+    move_start : 4/13
+    move_timer: 3/4
+
+    BoxLayout:
+        padding: [root.size[0]*root.move_timer, 0, 0, 30]
+        Label:
+            id: timer
+            font_size: 40
+            text:str(100)
+
+    BoxLayout:
+        padding: [root.size[0]*root.move_start, 0, 0, 30]
+        Button:
+            id: remove
+            text: root.btntxt[root.y]
+            font_size: 40
+            size: (260, 70)
+            size_hint: (None, None)
+            on_release: root.start() #Stopujemy lub wznawiamy grę
+            on_press: root.x += 1 #Przełączamy napis na przycisku
+            on_press: root.val0() 
+
+    BoxLayout:
+        pos: root.pos
+        size: root.size
+
+    Widget:
+        canvas:
+            Rectangle:
+                pos: self.pos
+                size: self.size
+                source: 'img/ship.png'
+          
+        id: ship
+        size: 80, 80
+        center: 400, 250   
+
+
+<Planet>:
+    dimension: (random.randint(80,170))
+    canvas:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: random.choice(['img/planet1.png', 'img/planet2.png'])
+
+    size: (root.dimension, root.dimension)
+
+<Rock>:
+    canvas.before:
+        PushMatrix
+        Rotate:
+            angle: (random.randint(0 , 360))
+            axis: (0, 0, 1)
+            origin: self.center
+    canvas:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: random.choice(['img/rock11.png', 'img/rock2.png'])
+
+    canvas.after:
+        PopMatrix
+    size: 50, 50
+
+
+<Star>
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            texture: self.star_image.texture
+    size: 60,60
+
+
+<CustomLayout>
+    canvas.before:
+        BorderImage:
+            # BorderImage behaves like the CSS BorderImage
+            border: 0, 0, 0 , 0
+            texture: self.background_image.texture
+            pos: self.pos
+            size: self.size
